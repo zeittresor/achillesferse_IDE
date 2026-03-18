@@ -1,0 +1,64 @@
+APP title="Achillesferse Calculator" width=360 height=420 bg="#202020"
+VAR expression = ""
+
+WIDGET panel FRAME bg="#202020" padx=12 pady=12
+WIDGET title LABEL parent="panel" row=0 column=0 columnspan=4 text="Calculator" bg="#202020" fg="white" font="Segoe UI 14" padx=4 pady=4
+WIDGET display ENTRY parent="panel" row=1 column=0 columnspan=4 width=28 padx=4 pady=8 readonly=true
+
+WIDGET clear_btn BUTTON parent="panel" row=2 column=0 text="C" width=6 padx=4 pady=4 action="clear_all()"
+WIDGET back_btn BUTTON parent="panel" row=2 column=1 text="<-" width=6 padx=4 pady=4 action="backspace()"
+WIDGET div_btn BUTTON parent="panel" row=2 column=2 text="/" width=6 padx=4 pady=4 action="append_token('/')"
+WIDGET mul_btn BUTTON parent="panel" row=2 column=3 text="*" width=6 padx=4 pady=4 action="append_token('*')"
+
+WIDGET b7 BUTTON parent="panel" row=3 column=0 text="7" width=6 padx=4 pady=4 action="append_token('7')"
+WIDGET b8 BUTTON parent="panel" row=3 column=1 text="8" width=6 padx=4 pady=4 action="append_token('8')"
+WIDGET b9 BUTTON parent="panel" row=3 column=2 text="9" width=6 padx=4 pady=4 action="append_token('9')"
+WIDGET sub_btn BUTTON parent="panel" row=3 column=3 text="-" width=6 padx=4 pady=4 action="append_token('-')"
+
+WIDGET b4 BUTTON parent="panel" row=4 column=0 text="4" width=6 padx=4 pady=4 action="append_token('4')"
+WIDGET b5 BUTTON parent="panel" row=4 column=1 text="5" width=6 padx=4 pady=4 action="append_token('5')"
+WIDGET b6 BUTTON parent="panel" row=4 column=2 text="6" width=6 padx=4 pady=4 action="append_token('6')"
+WIDGET add_btn BUTTON parent="panel" row=4 column=3 text="+" width=6 padx=4 pady=4 action="append_token('+')"
+
+WIDGET b1 BUTTON parent="panel" row=5 column=0 text="1" width=6 padx=4 pady=4 action="append_token('1')"
+WIDGET b2 BUTTON parent="panel" row=5 column=1 text="2" width=6 padx=4 pady=4 action="append_token('2')"
+WIDGET b3 BUTTON parent="panel" row=5 column=2 text="3" width=6 padx=4 pady=4 action="append_token('3')"
+WIDGET eq_btn BUTTON parent="panel" row=5 column=3 rowspan=2 text="=" width=6 padx=4 pady=4 action="calculate()"
+
+WIDGET b0 BUTTON parent="panel" row=6 column=0 columnspan=2 text="0" width=14 padx=4 pady=4 action="append_token('0')"
+WIDGET dot_btn BUTTON parent="panel" row=6 column=2 text="." width=6 padx=4 pady=4 action="append_token('.')"
+
+FUNC refresh_display()
+    UISET display, expression
+END
+
+FUNC append_token(token)
+    SET expression = expression + str(token)
+    CALL refresh_display()
+    CALL sound_beep(1000, 35)
+END
+
+FUNC clear_all()
+    SET expression = ""
+    CALL refresh_display()
+END
+
+FUNC backspace()
+    IF len(expression) > 0
+        SET expression = expression[:-1]
+        CALL refresh_display()
+    END
+END
+
+FUNC calculate()
+    IF expression == ""
+        RETURN
+    END
+    SET expression = calculate_expression(expression)
+    CALL refresh_display()
+    CALL sound_beep(1300, 55)
+END
+
+ON_START
+    CALL refresh_display()
+END

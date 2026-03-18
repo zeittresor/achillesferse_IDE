@@ -1,0 +1,17 @@
+APP title="Achillesferse Starfield" width=900 height=620 bg="black"
+VAR stars = []
+VAR star_count = 180
+VAR speed = 18
+
+WIDGET headline LABEL text="Starfield Simulator (Achillesferse)" bg="black" fg="white" font="Segoe UI 14" padx=10 pady=10
+WIDGET scene CANVAS width=860 height=520 bg="black" padx=12 pady=12
+
+ON_START
+    SET stars = init_starfield(star_count, 860, 520)
+    CALL draw_starfield('scene', stars)
+END
+
+ON_TICK 33
+    SET stars = step_starfield(stars, speed, 860, 520)
+    CALL draw_starfield('scene', stars)
+END

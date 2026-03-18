@@ -1,0 +1,42 @@
+APP title="Achillesferse Breakout" width=920 height=690 bg="#0F1115"
+VAR game = {}
+VAR paddle_speed = 24
+
+WIDGET title LABEL text="Breakout" bg="#0F1115" fg="white" font="Segoe UI 14" padx=10 pady=8
+WIDGET hint LABEL text="Left/Right move, R restarts" bg="#0F1115" fg="#CDD2DD" font="Segoe UI 10" padx=10 pady=4
+WIDGET scene CANVAS width=880 height=600 bg="#10131A" padx=10 pady=10
+
+BIND scene <Left> move_left()
+BIND scene <Right> move_right()
+BIND scene <KeyPress-r> restart_game()
+BIND scene <KeyPress-R> restart_game()
+
+FUNC redraw()
+    CALL breakout_draw('scene', game)
+END
+
+FUNC move_left()
+    SET game = breakout_move_paddle(game, -paddle_speed, 880)
+    CALL redraw()
+END
+
+FUNC move_right()
+    SET game = breakout_move_paddle(game, paddle_speed, 880)
+    CALL redraw()
+END
+
+FUNC restart_game()
+    SET game = breakout_new(880, 600, 5, 9)
+    CALL redraw()
+END
+
+ON_START
+    SET game = breakout_new(880, 600, 5, 9)
+    FOCUS scene
+    CALL redraw()
+END
+
+ON_TICK 16
+    SET game = breakout_step(game, 880, 600)
+    CALL redraw()
+END

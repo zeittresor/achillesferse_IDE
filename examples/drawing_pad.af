@@ -1,0 +1,30 @@
+APP title="Achillesferse Drawing Pad" width=960 height=700 bg="#1A1C22"
+VAR brush_color = "#FFFFFF"
+
+WIDGET header LABEL text="Drawing Pad" bg="#1A1C22" fg="white" font="Segoe UI 14" padx=10 pady=8
+WIDGET toolbar FRAME bg="#1A1C22" padx=10 pady=6
+WIDGET clear_btn BUTTON parent="toolbar" text="Clear" padx=8 pady=4 action="clear_all()"
+WIDGET white_btn BUTTON parent="toolbar" text="White" padx=8 pady=4 action="set_color('#FFFFFF')"
+WIDGET cyan_btn BUTTON parent="toolbar" text="Cyan" padx=8 pady=4 action="set_color('#66FCF1')"
+WIDGET pink_btn BUTTON parent="toolbar" text="Pink" padx=8 pady=4 action="set_color('#FF79C6')"
+WIDGET gold_btn BUTTON parent="toolbar" text="Gold" padx=8 pady=4 action="set_color('#FFD166')"
+WIDGET info LABEL text="Hold left mouse button and draw on the canvas." bg="#1A1C22" fg="#CDD2DD" font="Segoe UI 10" padx=10 pady=4
+WIDGET pad CANVAS width=920 height=560 bg="#0B0D10" padx=12 pady=12
+
+BIND pad <B1-Motion> paint()
+
+FUNC paint()
+    CALL canvas_oval('pad', event_x()-3, event_y()-3, event_x()+3, event_y()+3, fill=brush_color, outline='')
+END
+
+FUNC clear_all()
+    CALL canvas_clear('pad')
+END
+
+FUNC set_color(new_color)
+    SET brush_color = str(new_color)
+END
+
+ON_START
+    FOCUS pad
+END

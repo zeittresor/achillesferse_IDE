@@ -1,0 +1,66 @@
+APP title="Achillesferse Mandelbrot" width=920 height=720 bg="#101114"
+VAR center_x = -0.5
+VAR center_y = 0.0
+VAR zoom = 1.0
+VAR max_iter = 42
+VAR info = "Arrows move, +/- zoom, R reset"
+
+WIDGET title LABEL text="Mandelbrot Explorer" bg="#101114" fg="white" font="Segoe UI 14" padx=10 pady=8
+WIDGET status LABEL text="" bg="#101114" fg="#D5D9E3" font="Segoe UI 10" padx=10 pady=4
+WIDGET view CANVAS width=880 height=620 bg="black" padx=10 pady=10
+
+BIND view <Left> move_left()
+BIND view <Right> move_right()
+BIND view <Up> move_up()
+BIND view <Down> move_down()
+BIND view <plus> zoom_in()
+BIND view <minus> zoom_out()
+BIND view <KeyPress-r> reset_view()
+BIND view <KeyPress-R> reset_view()
+
+FUNC redraw()
+    UISET status, info + " | center=(" + str(round(center_x, 5)) + ", " + str(round(center_y, 5)) + ") zoom=" + str(round(zoom, 3))
+    CALL draw_mandelbrot('view', center_x, center_y, zoom, max_iter, 4)
+END
+
+FUNC move_left()
+    SET center_x = center_x - 0.15 / zoom
+    CALL redraw()
+END
+
+FUNC move_right()
+    SET center_x = center_x + 0.15 / zoom
+    CALL redraw()
+END
+
+FUNC move_up()
+    SET center_y = center_y - 0.15 / zoom
+    CALL redraw()
+END
+
+FUNC move_down()
+    SET center_y = center_y + 0.15 / zoom
+    CALL redraw()
+END
+
+FUNC zoom_in()
+    SET zoom = zoom * 1.4
+    CALL redraw()
+END
+
+FUNC zoom_out()
+    SET zoom = max(0.2, zoom / 1.4)
+    CALL redraw()
+END
+
+FUNC reset_view()
+    SET center_x = -0.5
+    SET center_y = 0.0
+    SET zoom = 1.0
+    CALL redraw()
+END
+
+ON_START
+    FOCUS view
+    CALL redraw()
+END

@@ -1,0 +1,28 @@
+APP title="Achillesferse Todo List" width=520 height=520 bg="#1D1F24"
+
+WIDGET title LABEL text="Todo List" bg="#1D1F24" fg="white" font="Segoe UI 14" padx=10 pady=8
+WIDGET input ENTRY width=34 padx=10 pady=6
+WIDGET add_btn BUTTON text="Add" width=10 padx=10 pady=4 action="add_item()"
+WIDGET remove_btn BUTTON text="Remove selected" width=18 padx=10 pady=4 action="remove_item()"
+WIDGET tasks LISTBOX width=48 height=15 padx=10 pady=8
+WIDGET hint LABEL text="Type a task, press Enter or click Add." bg="#1D1F24" fg="#C8CDD8" font="Segoe UI 10" padx=10 pady=4
+
+BIND input <Return> add_item()
+
+FUNC add_item()
+    SET value = text('input').strip()
+    IF value == ""
+        RETURN
+    END
+    APPEND tasks, value
+    CLEAR input
+    FOCUS input
+END
+
+FUNC remove_item()
+    CALL listbox_delete_selected('tasks')
+END
+
+ON_START
+    FOCUS input
+END

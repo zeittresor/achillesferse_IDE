@@ -1,0 +1,19 @@
+APP title="Achillesferse Piano" width=560 height=300 bg="#1B1D23"
+
+WIDGET title LABEL text="Mini Piano / Beep Demo" bg="#1B1D23" fg="white" font="Segoe UI 14" padx=10 pady=8
+WIDGET info LABEL text="Buttons trigger simple beeps via the runtime." bg="#1B1D23" fg="#D1D5DE" font="Segoe UI 10" padx=10 pady=4
+WIDGET panel FRAME bg="#1B1D23" padx=12 pady=12
+WIDGET c4 BUTTON parent="panel" row=0 column=0 text="C" width=8 padx=4 pady=4 action="play(262)"
+WIDGET d4 BUTTON parent="panel" row=0 column=1 text="D" width=8 padx=4 pady=4 action="play(294)"
+WIDGET e4 BUTTON parent="panel" row=0 column=2 text="E" width=8 padx=4 pady=4 action="play(330)"
+WIDGET f4 BUTTON parent="panel" row=0 column=3 text="F" width=8 padx=4 pady=4 action="play(349)"
+WIDGET g4 BUTTON parent="panel" row=0 column=4 text="G" width=8 padx=4 pady=4 action="play(392)"
+WIDGET a4 BUTTON parent="panel" row=0 column=5 text="A" width=8 padx=4 pady=4 action="play(440)"
+WIDGET b4 BUTTON parent="panel" row=0 column=6 text="B" width=8 padx=4 pady=4 action="play(494)"
+WIDGET c5 BUTTON parent="panel" row=0 column=7 text="C5" width=8 padx=4 pady=4 action="play(523)"
+WIDGET status LABEL text="Ready" bg="#1B1D23" fg="#EEF2F8" font="Segoe UI 11" padx=10 pady=8
+
+FUNC play(freq)
+    UISET status, "Playing " + str(freq) + " Hz"
+    CALL sound_beep(freq, 120)
+END

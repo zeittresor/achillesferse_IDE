@@ -1,0 +1,18 @@
+APP title="Achillesferse Digital Clock" width=420 height=220 bg="#0E1014"
+
+WIDGET title LABEL text="Digital Clock" bg="#0E1014" fg="#D4D9E3" font="Segoe UI 12" padx=10 pady=6
+WIDGET clock LABEL text="00:00:00" bg="#0E1014" fg="white" font="Consolas 32" padx=10 pady=12
+WIDGET date LABEL text="" bg="#0E1014" fg="#D4D9E3" font="Segoe UI 11" padx=10 pady=4
+
+FUNC redraw()
+    UISET clock, now_text("%H:%M:%S")
+    UISET date, now_text("%A, %d %B %Y")
+END
+
+ON_START
+    CALL redraw()
+END
+
+ON_TICK 250
+    CALL redraw()
+END

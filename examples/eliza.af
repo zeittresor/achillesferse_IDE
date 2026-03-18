@@ -1,0 +1,25 @@
+APP title="Achillesferse ELIZA" width=760 height=540 bg="#1d1f21"
+
+WIDGET title LABEL text="ELIZA Chatbot" bg="#1d1f21" fg="white" font="Segoe UI 14" padx=10 pady=8
+WIDGET conversation TEXT width=86 height=22 padx=10 pady=6
+WIDGET user_input ENTRY width=68 padx=10 pady=6
+WIDGET send_btn BUTTON text="Send" width=10 padx=10 pady=6 action="send()"
+
+BIND user_input <Return> send()
+
+FUNC send()
+    SET user_message = text('user_input').strip()
+    IF user_message == ""
+        RETURN
+    END
+    APPEND conversation, "You: " + user_message + "\n"
+    SET bot_message = eliza_reply(user_message)
+    APPEND conversation, "Eliza: " + bot_message + "\n\n"
+    CLEAR user_input
+    FOCUS user_input
+END
+
+ON_START
+    APPEND conversation, "Eliza: Hello. How are you feeling today?\n\n"
+    FOCUS user_input
+END
